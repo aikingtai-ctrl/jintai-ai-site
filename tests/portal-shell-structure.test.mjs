@@ -101,12 +101,23 @@ test("共享站点壳层提供公共路由、联系入口和门户样式", () =>
 
   const stone = declaredHex(styles, "--jt-stone");
   const stoneSurface = cssBlock(styles, ".surface-stone");
-  for (const token of ["--portal-text", "--portal-muted", "--portal-accent"]) {
+  for (const token of [
+    "--portal-text",
+    "--portal-muted",
+    "--portal-accent",
+    "--portal-compute",
+    "--portal-create",
+    "--portal-grow",
+  ]) {
     assert.ok(
       contrastRatio(stone, declaredHex(stoneSurface, token)) >= 4.5,
       `${token} must meet 4.5:1 contrast on stone`,
     );
   }
+  assert.ok(
+    contrastRatio(stone, declaredHex(stoneSurface, "--portal-focus")) >= 3,
+    "--portal-focus must meet 3:1 contrast on stone",
+  );
 });
 
 test("移动端折叠菜单内提供发起合作入口", () => {

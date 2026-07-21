@@ -351,6 +351,7 @@
   --portal-text: var(--jt-ink);
   --portal-muted: var(--jt-ink-2);
   --portal-accent: var(--jt-gold-soft);
+  --portal-focus: var(--jt-gold);
   --portal-compute: var(--jt-compute);
   --portal-create: var(--jt-create);
   --portal-grow: var(--jt-grow);
@@ -363,6 +364,7 @@
     --portal-text: #211d16;
     --portal-muted: #5a5046;
     --portal-accent: #765719;
+    --portal-focus: #8f6a24;
     --portal-compute: #00698f;
     --portal-create: #534295;
     --portal-grow: #116b49;
@@ -430,7 +432,7 @@
   }
 
   .portal-focus-ring:focus-visible {
-    outline: 2px solid var(--jt-gold);
+    outline: 2px solid var(--portal-focus);
     outline-offset: 3px;
   }
 
