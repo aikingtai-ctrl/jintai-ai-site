@@ -71,12 +71,12 @@ export function Hero() {
           Beijing · Chang&apos;an Ave
         </p>
 
-        {/* 窄屏用 2rem：再大一档「长安街上的城区算力」这行就会折出一个孤字 */}
+        {/* 窄屏用 2rem，避免标题出现孤字。 */}
         <h1 className="mt-10 max-w-5xl text-[2rem] font-bold leading-[1.16] tracking-tight sm:text-6xl lg:text-7xl">
-          长安街上的
-          <span className="text-gold">城区算力</span>
+          面向政企、产业与院校的
+          <span className="text-gold">AI 场景协同</span>
           <br />
-          与内容交付基础设施
+          与内容交付服务
         </h1>
 
         <p className="mt-9 max-w-3xl text-xl leading-relaxed text-ink-2">
@@ -210,11 +210,10 @@ export function Advantages() {
       <div className={`${shell} py-28`}>
         <SectionLabel>为什么是金泰</SectionLabel>
         <h2 className="mt-6 max-w-4xl text-4xl font-bold leading-tight sm:text-5xl">
-          六项条件，前两项在北京城区内不可通过投资获得
+          围绕实际需求推进服务与协同
         </h2>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-ink-2">
-          我们的定价不参照通用 IDC
-          均价，依据以下条件确定。对价格敏感、无城区刚性需求的客户，本节点不是合适选择。
+          通过场景沟通、联合验证与内容交付支持，推进项目合作。
         </p>
 
         <ul className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -257,10 +256,10 @@ export function Audiences() {
       <div className={`${shell} relative py-28`}>
         <SectionLabel>服务对象</SectionLabel>
         <h2 className="mt-6 max-w-4xl text-4xl font-bold leading-tight sm:text-5xl">
-          五类必须留在城区的负载
+          三类合作伙伴
         </h2>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-ink-2">
-          大规模训练集群在张北、乌兰察布等地综合成本更低，不属于本节点的服务范围。
+          面向政企与媒体、产业伙伴以及院校与招商方向开展协作。
         </p>
 
         <ul className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -308,7 +307,7 @@ export function Pricing() {
         }}
       />
       <div className={`${shell} relative py-28`}>
-        <SectionLabel>资费与计价</SectionLabel>
+        <SectionLabel>合作方式</SectionLabel>
         <h2 className="mt-6 max-w-4xl text-4xl font-bold leading-tight sm:text-5xl">
           {pricing.lead}
         </h2>
@@ -360,7 +359,7 @@ export function Pricing() {
                 href="#contact"
                 className="mt-9 inline-flex min-h-11 cursor-pointer items-center gap-2 border-t border-border pt-5 text-lg text-gold transition-colors duration-200 hover:text-gold-soft"
               >
-                索取该档报价
+                发起合作咨询
                 <ArrowRight className="size-5" aria-hidden />
               </Link>
             </li>
@@ -419,10 +418,10 @@ export function Faq() {
 /* --------------------------------------------------------------- Contact */
 
 const contactPoints = [
-  { icon: Zap, text: "自建变电与散热系统，综合电价 1.00 元/度" },
-  { icon: Server, text: "140 个机柜已建成，交付周期以周计" },
-  { icon: ShieldCheck, text: "可指定不接入公网，甲方可驻场监督" },
-  { icon: CircleCheck, text: "内容交付全流程使用国产模型栈" },
+  { icon: Zap, text: "围绕实际业务需求组织服务与交付" },
+  { icon: Server, text: "支持多方参与的场景沟通与联合验证" },
+  { icon: ShieldCheck, text: "可预约了解空间、服务与合作方向" },
+  { icon: CircleCheck, text: "提供面向项目的内容生产与交付支持" },
 ];
 
 export function Contact() {
