@@ -1,0 +1,346 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-sans);
+
+  /* ---- 金泰品牌八色（全站唯一色源，勿在组件里写裸 hex） ---- */
+  --color-gold: var(--jt-gold);
+  --color-gold-soft: var(--jt-gold-soft);
+  --color-gold-deep: var(--jt-gold-deep);
+  --color-gold-dim: var(--jt-gold-dim);
+  --color-night: var(--jt-night);
+  --color-night-2: var(--jt-night-2);
+  --color-night-3: var(--jt-night-3);
+  --color-compute: var(--jt-compute);
+  --color-create: var(--jt-create);
+  --color-grow: var(--jt-grow);
+  --color-alert: var(--jt-alert);
+  --color-ink: var(--jt-ink);
+  --color-ink-2: var(--jt-ink-2);
+  --color-ink-3: var(--jt-ink-3);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* 金泰品牌八色 —— 定稿值，不要改动 */
+  --jt-gold: #e8b54d; /* 鎏金 · 主色 */
+  --jt-gold-soft: #f6dfa2; /* 曦金 */
+  --jt-gold-deep: #8f6a24; /* 铜金 —— 仅用于描边/块面，不可用作深色底上的文字 */
+  /* 铜金在深色底上作小字时对比度仅 3.6:1，不达 4.5。
+     这是它的提亮派生色，专供深色底上的小号金字（对卡片底 #111726 为 7.3:1）。 */
+  --jt-gold-dim: #c9a05a;
+  --jt-night: #0b0f1c; /* 玄夜 · 底色 */
+  --jt-night-2: #111726;
+  --jt-night-3: #161d2f;
+  --jt-compute: #4cc9ff; /* 算力蓝 */
+  --jt-create: #a08cff; /* 创想紫 */
+  --jt-grow: #4ce0a4; /* 生长绿 */
+  --jt-alert: #ff7d75; /* 警示红 */
+
+  /* 文字层级 —— 对 --jt-night 的对比度已逐个核算 */
+  --jt-ink: #e7eaf2; /* 16.5:1  正文 */
+  --jt-ink-2: #a8b0c4; /* 8.8:1   次要 */
+  /* 辅助文字。取值按「卡片底 #111726」而非页面底 #0B0F1C 核算——
+     卡片更亮，是全站对比度最不利的场景，达标则处处达标（4.8:1）。 */
+  --jt-ink-3: #7b85a1;
+
+  /* 拉丁字形走 next/font 的 Lexend，中文走系统字栈（避免加载数 MB 的 CJK 字体） */
+  --font-sans:
+    var(--font-lexend), ui-sans-serif, "PingFang SC", "Microsoft YaHei",
+    "Hiragino Sans GB", "Source Han Sans SC", "Noto Sans CJK SC", system-ui,
+    sans-serif;
+
+  --radius: 0.5rem;
+}
+
+/* 站点为深色单主题：:root 与 .dark 同值，避免系统偏好造成半深半浅 */
+:root,
+.dark {
+  --background: var(--jt-night);
+  --foreground: var(--jt-ink);
+  --card: var(--jt-night-2);
+  --card-foreground: var(--jt-ink);
+  --popover: var(--jt-night-2);
+  --popover-foreground: var(--jt-ink);
+  --primary: var(--jt-gold);
+  --primary-foreground: #241a05;
+  --secondary: var(--jt-night-3);
+  --secondary-foreground: var(--jt-ink);
+  --muted: var(--jt-night-3);
+  --muted-foreground: var(--jt-ink-2);
+  --accent: var(--jt-night-3);
+  --accent-foreground: var(--jt-gold-soft);
+  --destructive: var(--jt-alert);
+  --border: color-mix(in srgb, var(--jt-ink) 12%, transparent);
+  --input: color-mix(in srgb, var(--jt-ink) 16%, transparent);
+  --ring: var(--jt-gold);
+  --chart-1: var(--jt-gold);
+  --chart-2: var(--jt-compute);
+  --chart-3: var(--jt-create);
+  --chart-4: var(--jt-grow);
+  --chart-5: var(--jt-gold-deep);
+  --sidebar: var(--jt-night-2);
+  --sidebar-foreground: var(--jt-ink);
+  --sidebar-primary: var(--jt-gold);
+  --sidebar-primary-foreground: #241a05;
+  --sidebar-accent: var(--jt-night-3);
+  --sidebar-accent-foreground: var(--jt-gold-soft);
+  --sidebar-border: color-mix(in srgb, var(--jt-ink) 12%, transparent);
+  --sidebar-ring: var(--jt-gold);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "tnum" 0;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+    /* 吸顶导航高度，避免锚点跳转后标题被挡 */
+    scroll-padding-top: 6.5rem;
+    /* 整站字号放大：Tailwind 的 rem 刻度全部随根字号走，
+       正文、标题、间距按同一比例长大，不破坏版式关系。 */
+    font-size: 17px;
+  }
+  @media (min-width: 640px) {
+    html {
+      font-size: 18px;
+    }
+  }
+  @media (min-width: 1280px) {
+    html {
+      font-size: 19px;
+    }
+  }
+  /* 数字用等宽数位，表格与统计不跳动 */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+  /* 键盘焦点始终可见 */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold;
+  }
+}
+
+/* ================================================================
+   流体玻璃 + 好莱坞影视工业视觉层
+   全部为纯 CSS，不引入任何图片/字体资源，静态导出后依然自足。
+   原则：玻璃只做「暗色磨砂」，绝不提亮底色——提亮会让 ink-2 / ink-3
+   在面板上跌破 4.5:1，全站对比度核算就作废了。
+   ================================================================ */
+
+@layer components {
+  /* —— 流体玻璃面板 —— */
+  .glass {
+    position: relative;
+    isolation: isolate;
+    background:
+      linear-gradient(
+        160deg,
+        color-mix(in srgb, var(--jt-ink) 7%, transparent) 0%,
+        transparent 42%
+      ),
+      color-mix(in srgb, var(--jt-night-2) 72%, transparent);
+    /* 磨砂必须走 Tailwind 的 backdrop 工具类：手写 backdrop-filter 会被
+       Lightning CSS 编译成只带 -webkit- 前缀的版本，Chrome 不认，玻璃就没了 */
+    @apply backdrop-blur-2xl backdrop-saturate-150;
+    border: 1px solid color-mix(in srgb, var(--jt-ink) 12%, transparent);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, var(--jt-ink) 14%, transparent) inset,
+      0 24px 60px -30px rgb(0 0 0 / 0.9);
+  }
+
+  /* 顶缘高光：玻璃厚度的镜面反射，一条从左侧亮到中段的细线 */
+  .glass::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--jt-gold-soft) 55%, transparent) 18%,
+      color-mix(in srgb, var(--jt-ink) 30%, transparent) 52%,
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  /* 强调档玻璃：金色沁边，用于「高功率智算柜」「重点客户」一类 */
+  .glass-gold {
+    background:
+      linear-gradient(
+        160deg,
+        color-mix(in srgb, var(--jt-gold) 10%, transparent) 0%,
+        transparent 46%
+      ),
+      color-mix(in srgb, var(--jt-night-2) 74%, transparent);
+    border-color: color-mix(in srgb, var(--jt-gold) 32%, transparent);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, var(--jt-gold) 22%, transparent) inset,
+      0 24px 60px -28px color-mix(in srgb, var(--jt-gold) 26%, transparent);
+  }
+
+  /* 悬停：折射感增强，位移极小，避免整页跳动 */
+  .glass-hover {
+    transition:
+      border-color 240ms ease,
+      box-shadow 240ms ease,
+      transform 240ms ease;
+  }
+  .glass-hover:hover {
+    border-color: color-mix(in srgb, var(--jt-gold) 40%, transparent);
+    box-shadow:
+      0 1px 0 0 color-mix(in srgb, var(--jt-gold) 26%, transparent) inset,
+      0 30px 70px -30px color-mix(in srgb, var(--jt-gold) 30%, transparent);
+    transform: translateY(-2px);
+  }
+
+  /* —— 影视工业：黑边框（letterbox）—— */
+  .letterbox::before,
+  .letterbox::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3.25rem;
+    background: linear-gradient(
+      to bottom,
+      var(--jt-night) 42%,
+      transparent
+    );
+    z-index: 2;
+    pointer-events: none;
+  }
+  .letterbox::after {
+    /* top 与 bottom 同时给值会「过约束」，绝对定位下 top 胜出、
+       下黑边会跑到顶上，必须显式让出 top */
+    top: auto;
+    bottom: 0;
+    transform: scaleY(-1);
+  }
+  .letterbox::before {
+    top: 0;
+  }
+
+  /* —— 变形宽银幕镜头炫光：一道横贯画面的水平光带 —— */
+  .anamorphic {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--jt-compute) 55%, transparent) 30%,
+      color-mix(in srgb, var(--jt-gold-soft) 75%, transparent) 50%,
+      color-mix(in srgb, var(--jt-compute) 55%, transparent) 70%,
+      transparent
+    );
+    filter: blur(2.5px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* —— 胶片颗粒：SVG 分形噪声，内联 data-uri，无外部请求 ——
+     注意：颗粒占用宿主的 ::after。.letterbox 的下黑边也用 ::after，
+     两者不能挂在同一个元素上，否则颗粒会被压缩进那条 55px 的黑边里。
+     首屏的做法是把 .grain 挂在铺满的环境光层上，而不是 section 本身。 */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.24;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  }
+
+  /* —— 流体极光：缓慢漂移的色团，玻璃后面的「被折射物」—— */
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    will-change: transform;
+    animation: jt-drift 26s ease-in-out infinite alternate;
+  }
+
+  @keyframes jt-drift {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(4%, -6%, 0) scale(1.12);
+    }
+  }
+
+  /* 影视工业的场记标签：拉丁文大写 + 极宽字距 */
+  .slate {
+    text-transform: uppercase;
+    letter-spacing: 0.34em;
+    font-weight: 500;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
