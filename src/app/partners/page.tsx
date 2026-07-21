@@ -8,7 +8,7 @@ import { partnerRoles } from "@/content/site";
 export default function PartnersPage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader currentPath="/partners/" />
       <main id="main">
         <PageHero
           eyebrow="合作伙伴"

@@ -4,6 +4,7 @@ import { Logo } from "@/components/brand";
 import { site } from "@/content/site";
 
 const publicNav = [
+  { href: "/", label: "首页" },
   { href: "/capabilities/", label: "能力服务" },
   { href: "/solutions/", label: "解决方案" },
   { href: "/ai-center/", label: "AI 中心" },
@@ -11,13 +12,17 @@ const publicNav = [
   { href: "/about/", label: "关于我们" },
 ];
 
+interface SiteHeaderProps {
+  currentPath: string;
+}
+
 /**
  * 吸顶导航。移动端用 <details> 实现折叠菜单——无需客户端 JS，
  * 保持整个页面为 Server Component（Next 建议默认不加 'use client'）。
  */
-export function SiteHeader() {
+export function SiteHeader({ currentPath }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-night/70 backdrop-blur-2xl backdrop-saturate-150">
+    <header className="sticky top-0 z-50 border-b border-border bg-night backdrop-blur-2xl backdrop-saturate-150">
       <div className="mx-auto flex h-24 max-w-7xl items-center gap-8 px-6">
         <Link
           href="/"
@@ -32,17 +37,26 @@ export function SiteHeader() {
 
         <nav aria-label="主导航" className="ml-auto hidden lg:block">
           <ul className="flex items-center gap-8">
-            {publicNav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  prefetch={false}
-                  className="portal-focus-ring inline-flex min-h-11 cursor-pointer items-center text-base text-ink-2 transition-colors duration-200 hover:text-gold"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {publicNav.map((item) => {
+              const isCurrent = item.href === currentPath;
+
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    prefetch={false}
+                    aria-current={isCurrent ? "page" : undefined}
+                    className={`portal-focus-ring inline-flex min-h-11 cursor-pointer items-center border-b-2 text-base transition-colors duration-200 ${
+                      isCurrent
+                        ? "site-header-active border-gold"
+                        : "border-transparent text-ink-2 hover:text-gold"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
@@ -64,17 +78,26 @@ export function SiteHeader() {
           </summary>
           <div className="absolute right-0 top-full mt-3 w-60 glass rounded-xl p-2">
             <ul>
-              {publicNav.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    prefetch={false}
-                    className="block cursor-pointer rounded-md px-4 py-3 text-base text-ink-2 transition-colors duration-200 hover:bg-night-3 hover:text-gold"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {publicNav.map((item) => {
+                const isCurrent = item.href === currentPath;
+
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      prefetch={false}
+                      aria-current={isCurrent ? "page" : undefined}
+                      className={`block cursor-pointer rounded-md px-4 py-3 text-base transition-colors duration-200 ${
+                        isCurrent
+                          ? "site-header-active bg-night-3"
+                          : "text-ink-2 hover:bg-night-3 hover:text-gold"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
             <Link
               href="/about/#contact"

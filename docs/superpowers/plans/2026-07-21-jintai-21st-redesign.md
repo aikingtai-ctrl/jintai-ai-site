@@ -173,15 +173,15 @@ git commit -m "feat: unify Jintai portal pages"
 - Consumes: completed six-page static site
 - Produces: verified GitHub Pages deployment and opened final URL
 
-- [ ] **Step 1: 完整自动化验证**
+- [ ] **Step 1: 根路径构建**
 
-Run: `npm test && npm run test:content && npm run lint && npm run build`
+Run: `$env:JINTAI_ROOT_PATH='1'; npm test && npm run test:content && npm run lint && npm run build; Remove-Item Env:JINTAI_ROOT_PATH`
 
-Expected: all tests PASS, lint 0 errors, Next.js static export succeeds.
+Expected: all tests PASS, lint 0 errors, root-hosted static export succeeds without `/jintai-ai-site/` asset paths.
 
-- [ ] **Step 2: Pages basePath 构建**
+- [ ] **Step 2: Pages basePath 构建（默认环境）**
 
-Run: `$env:GITHUB_PAGES='true'; npm run build; Remove-Item Env:GITHUB_PAGES`
+Run: `npm run build`
 
 Expected: `out/index.html` 和五个内页目录存在，生成资源路径包含 `/jintai-ai-site/`。
 

@@ -8,7 +8,7 @@ import { trustPoints } from "@/content/site";
 export default function CapabilitiesPage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader currentPath="/capabilities/" />
       <main id="main">
         <PageHero
           eyebrow="能力服务"

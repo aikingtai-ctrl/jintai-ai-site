@@ -136,7 +136,10 @@ test("homepage places the stone inquiry form inside an opaque night panel", () =
 
 test("homepage inquiry feedback uses contrast-verified tokens", () => {
   assert.match(inquiryForm, /status\.kind === "error" \? "text-alert" : "text-ink-2"/);
-  assert.match(inquiryForm, /text-ink-3/);
+  assert.match(
+    inquiryForm,
+    /<p className="text-base leading-relaxed text-ink-3">\{inquiry\.note\}<\/p>/,
+  );
   assert.doesNotMatch(inquiryForm, /text-red-300/);
 
   const background = hexToken("--jt-night-2");

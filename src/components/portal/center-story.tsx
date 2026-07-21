@@ -20,7 +20,7 @@ export function CenterStory() {
           <Link
             href="/ai-center/#visit"
             prefetch={false}
-            className="portal-focus-ring mt-8 inline-flex min-h-11 items-center gap-2 text-[var(--portal-accent)] transition-colors hover:text-gold"
+            className="portal-focus-ring mt-8 inline-flex min-h-11 items-center gap-2 text-[var(--portal-accent)] underline-offset-4 transition-colors hover:underline"
           >
             预约参观
             <ArrowRight className="size-4" aria-hidden />

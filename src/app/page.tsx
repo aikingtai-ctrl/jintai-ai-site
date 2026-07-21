@@ -9,7 +9,7 @@ import { TrustStrip } from "@/components/portal/trust-strip";
 export default function HomePage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader currentPath="/" />
       <main id="main">
         <PortalHero />
         <TrustStrip />

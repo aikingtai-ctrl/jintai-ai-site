@@ -182,13 +182,7 @@
   .glass {
     position: relative;
     isolation: isolate;
-    background:
-      linear-gradient(
-        160deg,
-        color-mix(in srgb, var(--jt-ink) 7%, transparent) 0%,
-        transparent 42%
-      ),
-      color-mix(in srgb, var(--jt-night-2) 72%, transparent);
+    background: var(--jt-night-2);
     /* 磨砂必须走 Tailwind 的 backdrop 工具类：手写 backdrop-filter 会被
        Lightning CSS 编译成只带 -webkit- 前缀的版本，Chrome 不认，玻璃就没了 */
     @apply backdrop-blur-2xl backdrop-saturate-150;
@@ -434,6 +428,11 @@
   .portal-focus-ring:focus-visible {
     outline: 2px solid var(--portal-focus);
     outline-offset: 3px;
+  }
+
+  .site-header-active {
+    color: var(--jt-gold);
+    font-weight: 600;
   }
 
   .portal-shell {

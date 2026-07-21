@@ -8,7 +8,7 @@ import { aboutPoints, site } from "@/content/site";
 export default function AboutPage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader currentPath="/about/" />
       <main id="main">
         <PageHero
           eyebrow="关于我们"

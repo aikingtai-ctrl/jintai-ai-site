@@ -8,7 +8,7 @@ import { solutionGroups } from "@/content/site";
 export default function SolutionsPage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader currentPath="/solutions/" />
       <main id="main">
         <PageHero
           eyebrow="解决方案"

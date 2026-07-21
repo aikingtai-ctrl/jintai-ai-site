@@ -11,7 +11,7 @@ const floorTones = ["gold", "compute", "create", "grow"] as const;
 export default function AiCenterPage() {
   return (
     <>
-      <SiteHeader />
+      <SiteHeader currentPath="/ai-center/" />
       <main id="main">
         <PageHero
           eyebrow="AI 中心"
