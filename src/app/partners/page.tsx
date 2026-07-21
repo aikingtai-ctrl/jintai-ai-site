@@ -1,5 +1,6 @@
 import { InquiryForm } from "@/components/inquiry-form";
 import { PageHero } from "@/components/portal/page-hero";
+import { SectionHeading } from "@/components/portal/section-heading";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { partnerRoles } from "@/content/site";
@@ -15,13 +16,20 @@ export default function PartnersPage() {
           summary="连接政企与媒体、产业伙伴、院校与招商等合作角色，在具体场景中持续推进协同。"
           primaryHref="#inquiry"
           primaryLabel="发起生态合作"
+          sectionNumber="04"
+          signalTone="grow"
         />
         <section className="border-b border-border">
           <div className="mx-auto w-full max-w-7xl px-6 py-24">
-            <ul className="portal-grid">
+            <SectionHeading
+              eyebrow="共建对象"
+              title="连接能够共同验证场景、生产内容与培养人才的伙伴"
+              description="每一类伙伴都从明确的合作角色开始，再进入长期协同。"
+            />
+            <ul className="portal-grid mt-12">
               {partnerRoles.map((role) => (
                 <li key={role.id} className="portal-link-card">
-                  <h2 className="text-2xl font-semibold">{role.title}</h2>
+                  <h3 className="text-2xl font-semibold">{role.title}</h3>
                   <p className="mt-4 leading-relaxed text-ink-2">{role.summary}</p>
                 </li>
               ))}

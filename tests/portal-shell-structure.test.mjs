@@ -57,8 +57,19 @@ const routes = [
   "/about/",
 ];
 
+const pageHero = await readFile(
+  new URL("src/components/portal/page-hero.tsx", root),
+  "utf8",
+);
+const pageSources = await Promise.all(
+  routes.map((route) => readFile(new URL(`src/app${route}page.tsx`, root), "utf8")),
+);
+
 test("共享站点壳层提供公共路由、联系入口和门户样式", () => {
   assert.match(layout, /portal-shell/);
+  assert.match(header, /aria-label=/);
+  assert.match(header, /min-h-11/);
+  assert.match(footer, /href="\/about\/#contact"/);
   for (const route of routes) {
     assert.ok(header.includes(route), `header missing ${route}`);
     assert.ok(footer.includes(route), `footer missing ${route}`);
@@ -98,6 +109,9 @@ test("共享站点壳层提供公共路由、联系入口和门户样式", () =>
   assert.match(signalMark, /aria-label=\{label\}/);
   assert.match(signalMark, /Radio aria-hidden="true"/);
   assert.match(signalMark, /signal-\$\{tone\}/);
+  assert.match(pageHero, /import \{ SignalMark \}/);
+  assert.match(pageHero, /sectionNumber: string/);
+  assert.match(pageHero, /<SignalMark/);
 
   const stone = declaredHex(styles, "--jt-stone");
   const stoneSurface = cssBlock(styles, ".surface-stone");
@@ -118,6 +132,15 @@ test("共享站点壳层提供公共路由、联系入口和门户样式", () =>
     contrastRatio(stone, declaredHex(stoneSurface, "--portal-focus")) >= 3,
     "--portal-focus must meet 3:1 contrast on stone",
   );
+});
+
+test("five inner pages share numbered hero, editorial sections, and footer CTA", () => {
+  for (const [index, source] of pageSources.entries()) {
+    assert.match(source, /<PageHero/);
+    assert.match(source, new RegExp(`sectionNumber="0${index + 1}"`));
+    assert.match(source, /<SectionHeading/);
+    assert.match(source, /<SiteFooter/);
+  }
 });
 
 test("移动端折叠菜单内提供发起合作入口", () => {

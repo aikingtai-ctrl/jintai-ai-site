@@ -30,6 +30,7 @@ for (const [route, source] of routeSources) {
     assert.match(source, new RegExp(`${data}\.map`));
     assert.match(source, new RegExp(`defaultKind="${formKind}"`));
     assert.match(source, new RegExp(`primaryHref="${primaryHref}"`));
+    assert.match(source, /sectionNumber="0[1-5]"/);
   });
 
   test(`fresh static export contains ${route}`, async () => {
@@ -70,4 +71,5 @@ test("AI center and about expose their required form anchors", () => {
 test("page hero CTA uses the token-backed primary foreground", () => {
   assert.doesNotMatch(pageHero, /text-\[#241a05\]/);
   assert.match(pageHero, /text-primary-foreground/);
+  assert.match(pageHero, /SignalMark/);
 });

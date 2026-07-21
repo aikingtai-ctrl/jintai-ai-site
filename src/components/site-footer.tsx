@@ -25,6 +25,12 @@ export function SiteFooter() {
             <p className="mt-4 max-w-sm text-base leading-relaxed text-ink-3">
               {site.tagline}
             </p>
+            <Link
+              href="/about/#contact"
+              className="portal-focus-ring mt-6 inline-flex min-h-11 items-center rounded-md bg-gold px-5 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-gold-soft"
+            >
+              发起合作
+            </Link>
           </div>
 
           <nav aria-label="页脚导航">

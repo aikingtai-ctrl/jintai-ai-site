@@ -1,8 +1,12 @@
 import { InquiryForm } from "@/components/inquiry-form";
+import { FloorStack } from "@/components/portal/floor-stack";
 import { PageHero } from "@/components/portal/page-hero";
+import { SectionHeading } from "@/components/portal/section-heading";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { floorStories } from "@/content/site";
+
+const floorTones = ["gold", "compute", "create", "grow"] as const;
 
 export default function AiCenterPage() {
   return (
@@ -15,20 +19,26 @@ export default function AiCenterPage() {
           summary="展示、场景验证、生产交付与生态协同在同一空间发生，让合作对话进入真实工作现场。"
           primaryHref="#visit"
           primaryLabel="预约参观"
+          sectionNumber="03"
+          signalTone="create"
         />
         <section className="border-b border-border">
           <div className="mx-auto w-full max-w-7xl px-6 py-24">
-            <ol>
-              {floorStories.map((story) => (
-                <li key={story.id} className="portal-floor-row">
-                  <span className="pt-1 font-semibold text-gold">{story.label}</span>
-                  <div>
-                    <h2 className="text-2xl font-semibold">{story.title}</h2>
-                    <p className="mt-3 leading-relaxed text-ink-2">{story.summary}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+            <SectionHeading
+              eyebrow="中心楼层"
+              title="一栋楼，组织从会面到协同生产的工作流"
+              description="每一层对应一个可被看见、讨论与推进的协同环节。"
+            />
+            <div className="mt-12">
+              <FloorStack
+                floors={floorStories.map((story, index) => ({
+                  code: story.label,
+                  title: story.title,
+                  description: story.summary,
+                  tone: floorTones[index],
+                }))}
+              />
+            </div>
           </div>
         </section>
         <section id="visit">

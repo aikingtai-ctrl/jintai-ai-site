@@ -35,7 +35,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="cursor-pointer text-base text-ink-2 transition-colors duration-200 hover:text-gold"
+                  className="portal-focus-ring inline-flex min-h-11 cursor-pointer items-center text-base text-ink-2 transition-colors duration-200 hover:text-gold"
                 >
                   {item.label}
                 </Link>
@@ -46,7 +46,7 @@ export function SiteHeader() {
 
         <Link
           href="/about/#contact"
-          className="ml-auto hidden shrink-0 cursor-pointer items-center rounded-md bg-gold px-6 py-3 text-base font-medium text-[#241a05] transition-colors duration-200 hover:bg-gold-soft lg:ml-0 lg:inline-flex"
+          className="portal-focus-ring ml-auto hidden min-h-11 shrink-0 cursor-pointer items-center rounded-md bg-gold px-6 py-3 text-base font-medium text-[#241a05] transition-colors duration-200 hover:bg-gold-soft lg:ml-0 lg:inline-flex"
         >
           发起合作
         </Link>
