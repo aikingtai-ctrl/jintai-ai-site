@@ -14,6 +14,11 @@ const cooperationPath = await readFile(
   new URL("../src/components/portal/cooperation-path.tsx", import.meta.url),
   "utf8",
 );
+const inquiryForm = await readFile(
+  new URL("../src/components/inquiry-form.tsx", import.meta.url),
+  "utf8",
+);
+const globals = await readFile(new URL("../src/app/globals.css", import.meta.url), "utf8");
 const site = await readFile(new URL("../src/content/site.ts", import.meta.url), "utf8");
 const cooperationPaths = site.match(/export const cooperationPaths = \[([\s\S]*?)\] as const;/)?.[1];
 const allPortalSource = [
@@ -92,7 +97,21 @@ test("homepage uses the 21st architectural narrative structure", () => {
 });
 
 test("homepage keeps the public static-content boundary", () => {
-  assert.doesNotMatch(allPortalSource, /framer-motion|images\.unsplash\.com|https?:\/\//);
+  assert.doesNotMatch(allPortalSource, /framer-motion|gsap|images\.unsplash\.com|https?:\/\//);
   assert.doesNotMatch(allPortalSource, /[\u{1F000}-\u{1FAFF}]/u);
   assert.doesNotMatch(allPortalSource, /(?:累计|超过|服务).*?\d+(?:\.\d+)?(?:%|家|个|万)/);
+});
+
+test("homepage places the stone inquiry form inside a dark glass panel", () => {
+  assert.match(
+    cooperationPath,
+    /<section id="inquiry" className="surface-stone">[\s\S]*?<div className="glass[^"\n]*">[\s\S]*?<InquiryForm/,
+  );
+});
+
+test("homepage controls retain accessible motion and touch targets", () => {
+  assert.ok((hero.match(/min-h-11/g) ?? []).length >= 2, "hero CTAs need 44px targets");
+  assert.match(inquiryForm, /<button[\s\S]*?min-h-11/);
+  assert.match(globals, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(globals, /transition-duration: 0\.01ms !important/);
 });
