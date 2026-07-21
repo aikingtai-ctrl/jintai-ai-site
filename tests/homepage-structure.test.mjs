@@ -9,6 +9,7 @@ const cooperationPath = await readFile(
 );
 
 test("homepage orders trust, paths, center, and cooperation", () => {
+  let previousIndex = -1;
   for (const name of [
     "PortalHero",
     "TrustStrip",
@@ -16,7 +17,10 @@ test("homepage orders trust, paths, center, and cooperation", () => {
     "CenterStory",
     "CooperationPath",
   ]) {
-    assert.match(page, new RegExp("<" + name));
+    const index = page.indexOf("<" + name);
+    assert.notEqual(index, -1, `missing <${name}`);
+    assert.ok(index > previousIndex, `<${name} is out of order`);
+    previousIndex = index;
   }
 });
 
