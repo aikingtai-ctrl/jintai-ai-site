@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { inquiry, site } from "@/content/site";
+import { inquiry, inquiryKinds, site } from "@/content/site";
 
 /**
  * 结构化询价表单。
@@ -18,7 +18,11 @@ const fieldBase =
 
 const labelBase = "block text-base text-ink-2";
 
-export function InquiryForm() {
+export function InquiryForm({
+  defaultKind = "业务咨询",
+}: {
+  defaultKind?: (typeof inquiryKinds)[number];
+}) {
   // select 不做受控：取值只在提交时经 FormData 读取，无需渲染期同步
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -37,7 +41,7 @@ export function InquiryForm() {
       get("message") || "（无）",
     ].join("\n");
 
-    const subject = `业务咨询 · ${get("need")} · ${get("org")}`;
+    const subject = `${get("kind")} · ${get("org")}`;
     window.location.href =
       `mailto:${site.contact.email}` +
       `?subject=${encodeURIComponent(subject)}` +
@@ -86,6 +90,24 @@ export function InquiryForm() {
           placeholder="电话或邮箱"
           className={fieldBase}
         />
+      </div>
+
+      <div className="space-y-2">
+        <label className={labelBase} htmlFor="kind">
+          合作类型
+        </label>
+        <select
+          id="kind"
+          name="kind"
+          defaultValue={defaultKind}
+          className={`${fieldBase} cursor-pointer`}
+        >
+          {inquiryKinds.map((kind) => (
+            <option key={kind} value={kind}>
+              {kind}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">
