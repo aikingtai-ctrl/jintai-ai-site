@@ -32,16 +32,16 @@ export function FloorStack({ floors, compact = false }: FloorStackProps) {
             {floor.code}
           </span>
           <div>
-            <h3 className="text-xl font-semibold tracking-[-0.02em] text-foreground">
+            <h3 className="text-xl font-semibold tracking-[-0.02em] text-[var(--portal-text)]">
               {floor.title}
             </h3>
-            <p className="mt-2 max-w-2xl leading-7 text-[var(--jt-ink-2)]">
+            <p className="mt-2 max-w-2xl leading-7 text-[var(--portal-muted)]">
               {floor.description}
             </p>
           </div>
           <ArrowUpRight
             aria-hidden="true"
-            className="mt-1 size-5 text-[var(--jt-ink-3)]"
+            className="mt-1 size-5 text-[var(--portal-muted)]"
             strokeWidth={1.5}
           />
         </li>

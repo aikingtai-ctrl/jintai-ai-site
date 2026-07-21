@@ -348,12 +348,24 @@
 :root {
   --jt-stone: #ece8df;
   --jt-stone-ink: #211d16;
+  --portal-text: var(--jt-ink);
+  --portal-muted: var(--jt-ink-2);
+  --portal-accent: var(--jt-gold-soft);
+  --portal-compute: var(--jt-compute);
+  --portal-create: var(--jt-create);
+  --portal-grow: var(--jt-grow);
 }
 
 @layer components {
   .surface-stone {
     background: var(--jt-stone);
     color: var(--jt-stone-ink);
+    --portal-text: #211d16;
+    --portal-muted: #5a5046;
+    --portal-accent: #765719;
+    --portal-compute: #00698f;
+    --portal-create: #534295;
+    --portal-grow: #116b49;
   }
 
   .architect-grid {
@@ -381,7 +393,7 @@
 
   .floor-code,
   .signal-mark {
-    color: var(--jt-gold);
+    color: var(--portal-accent);
   }
 
   .floor-code {
@@ -394,17 +406,17 @@
 
   .floor-tone-compute,
   .signal-compute {
-    color: var(--jt-compute);
+    color: var(--portal-compute);
   }
 
   .floor-tone-create,
   .signal-create {
-    color: var(--jt-create);
+    color: var(--portal-create);
   }
 
   .floor-tone-grow,
   .signal-grow {
-    color: var(--jt-grow);
+    color: var(--portal-grow);
   }
 
   .signal-mark {
@@ -433,7 +445,7 @@
   }
 
   .portal-eyebrow {
-    color: var(--jt-gold-soft);
+    color: var(--portal-accent);
     font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: 0.16em;

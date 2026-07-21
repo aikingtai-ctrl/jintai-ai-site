@@ -21,10 +21,10 @@ export function SectionHeading({
       )}
     >
       <p className="portal-eyebrow">{eyebrow}</p>
-      <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl">
+      <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] text-[var(--portal-text)] sm:text-4xl">
         {title}
       </h2>
-      <p className="mt-4 text-base leading-8 text-[var(--jt-ink-2)]">
+      <p className="mt-4 text-base leading-8 text-[var(--portal-muted)]">
         {description}
       </p>
     </header>

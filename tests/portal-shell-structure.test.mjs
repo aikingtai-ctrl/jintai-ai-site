@@ -2,6 +2,42 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
+function cssBlock(source, selector) {
+  const match = source.match(
+    new RegExp(`${selector.replace(".", "\\.")}\\s*\\{([\\s\\S]*?)\\n\\s*\\}`),
+  );
+
+  assert.ok(match, `missing ${selector} CSS block`);
+  return match[1];
+}
+
+function declaredHex(source, name) {
+  const match = source.match(new RegExp(`${name}:\\s*(#[0-9a-fA-F]{6})`));
+
+  assert.ok(match, `missing ${name} hex token`);
+  return match[1];
+}
+
+function relativeLuminance(hex) {
+  const channels = [1, 3, 5].map((start) => {
+    const channel = Number.parseInt(hex.slice(start, start + 2), 16) / 255;
+
+    return channel <= 0.04045
+      ? channel / 12.92
+      : ((channel + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+
+function contrastRatio(first, second) {
+  const [lighter, darker] = [relativeLuminance(first), relativeLuminance(second)].sort(
+    (left, right) => right - left,
+  );
+
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 const root = new URL("../", import.meta.url);
 const [layout, styles, header, footer, sectionHeading, floorStack, signalMark] = await Promise.all([
   readFile(new URL("src/app/layout.tsx", root), "utf8"),
@@ -47,6 +83,30 @@ test("共享站点壳层提供公共路由、联系入口和门户样式", () =>
   assert.match(styles, /prefers-reduced-motion:\s*reduce/);
   assert.match(styles, /\.surface-stone/);
   assert.match(styles, /\.architect-grid/);
+  assert.match(sectionHeading, /align = "left"/);
+  assert.match(sectionHeading, /align === "center" && "mx-auto text-center"/);
+  assert.match(sectionHeading, /var\(--portal-text\)/);
+  assert.match(sectionHeading, /var\(--portal-muted\)/);
+  assert.match(floorStack, /type FloorTone = "gold" \| "compute" \| "create" \| "grow"/);
+  assert.match(floorStack, /compact && "floor-stack-compact"/);
+  for (const tone of ["gold", "compute", "create", "grow"]) {
+    assert.match(floorStack, new RegExp(`${tone}: "floor-tone-${tone}"`));
+  }
+  assert.match(floorStack, /ArrowUpRight[\s\S]*?aria-hidden="true"/);
+  assert.match(floorStack, /var\(--portal-text\)/);
+  assert.match(floorStack, /var\(--portal-muted\)/);
+  assert.match(signalMark, /aria-label=\{label\}/);
+  assert.match(signalMark, /Radio aria-hidden="true"/);
+  assert.match(signalMark, /signal-\$\{tone\}/);
+
+  const stone = declaredHex(styles, "--jt-stone");
+  const stoneSurface = cssBlock(styles, ".surface-stone");
+  for (const token of ["--portal-text", "--portal-muted", "--portal-accent"]) {
+    assert.ok(
+      contrastRatio(stone, declaredHex(stoneSurface, token)) >= 4.5,
+      `${token} must meet 4.5:1 contrast on stone`,
+    );
+  }
 });
 
 test("移动端折叠菜单内提供发起合作入口", () => {
