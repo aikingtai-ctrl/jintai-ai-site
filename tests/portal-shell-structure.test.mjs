@@ -3,11 +3,14 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const root = new URL("../", import.meta.url);
-const [layout, styles, header, footer] = await Promise.all([
+const [layout, styles, header, footer, sectionHeading, floorStack, signalMark] = await Promise.all([
   readFile(new URL("src/app/layout.tsx", root), "utf8"),
   readFile(new URL("src/app/globals.css", root), "utf8"),
   readFile(new URL("src/components/site-header.tsx", root), "utf8"),
   readFile(new URL("src/components/site-footer.tsx", root), "utf8"),
+  readFile(new URL("src/components/portal/section-heading.tsx", root), "utf8"),
+  readFile(new URL("src/components/portal/floor-stack.tsx", root), "utf8"),
+  readFile(new URL("src/components/portal/signal-mark.tsx", root), "utf8"),
 ]);
 
 const routes = [
@@ -38,6 +41,12 @@ test("共享站点壳层提供公共路由、联系入口和门户样式", () =>
   }
   assert.match(styles, /@media \(min-width: 1024px\)/);
   assert.match(styles, /prefers-reduced-motion/);
+  assert.match(sectionHeading, /<h2/);
+  assert.match(floorStack, /<ol/);
+  assert.match(signalMark, /aria-label=/);
+  assert.match(styles, /prefers-reduced-motion:\s*reduce/);
+  assert.match(styles, /\.surface-stone/);
+  assert.match(styles, /\.architect-grid/);
 });
 
 test("移动端折叠菜单内提供发起合作入口", () => {
