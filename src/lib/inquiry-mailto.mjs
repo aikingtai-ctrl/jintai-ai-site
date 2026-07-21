@@ -1,13 +1,9 @@
-export const INQUIRY_RECIPIENT = "ai.kingtai@gmail.com";
-
-/** @typedef {"业务咨询" | "预约参观" | "生态合作"} InquiryKind */
-
 /**
  * @typedef {object} InquiryInput
  * @property {string} org
  * @property {string} person
  * @property {string} phone
- * @property {InquiryKind} kind
+ * @property {string} kind
  * @property {string} need
  * @property {string} scale
  * @property {string} timeline
@@ -35,8 +31,11 @@ export function validateInquiryInput(input) {
   return `请填写${labels}。`;
 }
 
-/** @param {InquiryInput} input */
-export function buildMailtoUrl(input) {
+/**
+ * @param {InquiryInput} input
+ * @param {string} recipient
+ */
+export function buildMailtoUrl(input, recipient) {
   const body = [
     `单位：${input.org.trim()}`,
     `联系人：${input.person.trim()}`,
@@ -51,7 +50,7 @@ export function buildMailtoUrl(input) {
   const subject = `${input.kind} · ${input.org.trim()}`;
 
   return (
-    `mailto:${INQUIRY_RECIPIENT}` +
+    `mailto:${recipient}` +
     `?subject=${encodeURIComponent(subject)}` +
     `&body=${encodeURIComponent(body)}`
   );

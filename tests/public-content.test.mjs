@@ -11,7 +11,7 @@ async function readPublicSource(directory) {
     entries.map(async (entry) => {
       const file = new URL(entry.name, directory);
       if (entry.isDirectory()) return readPublicSource(new URL(`${entry.name}/`, directory));
-      if (!/\.(ts|tsx)$/.test(entry.name)) return [];
+      if (!/\.(mjs|ts|tsx)$/.test(entry.name)) return [];
       return [{ file: path.relative(new URL("..", import.meta.url).pathname, file.pathname), source: await readFile(file, "utf8") }];
     }),
   );
@@ -19,6 +19,15 @@ async function readPublicSource(directory) {
 }
 
 const publicSources = await readPublicSource(sourceDirectory);
+
+test("公开内容扫描包含 JavaScript helper", () => {
+  assert.equal(
+    publicSources.some(
+      ({ file }) => file === path.join("src", "lib", "inquiry-mailto.mjs"),
+    ),
+    true,
+  );
+});
 
 test("公开内容不保留限制数字和内部口径", () => {
   for (const value of [

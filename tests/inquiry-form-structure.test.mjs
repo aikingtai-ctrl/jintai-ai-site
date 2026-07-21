@@ -6,6 +6,10 @@ const form = await readFile(
   new URL("../src/components/inquiry-form.tsx", import.meta.url),
   "utf8",
 );
+const helper = await readFile(
+  new URL("../src/lib/inquiry-mailto.mjs", import.meta.url),
+  "utf8",
+);
 
 let inquiryMailto = {};
 try {
@@ -28,6 +32,7 @@ const validInquiry = {
   timeline: "近期",
   message: "A+B & C?\n第二行",
 };
+const testRecipient = "recipient+test@example.test";
 
 test("咨询表单暴露合作类型选择", () => {
   assert.match(form, /name="kind"/);
@@ -44,25 +49,25 @@ test("三种合作类型分别进入邮件主题", () => {
 
   for (const kind of ["业务咨询", "预约参观", "生态合作"]) {
     const url = new URL(
-      inquiryMailto.buildMailtoUrl({ ...validInquiry, kind }),
+      inquiryMailto.buildMailtoUrl({ ...validInquiry, kind }, testRecipient),
     );
     assert.equal(url.searchParams.get("subject"), `${kind} · 金泰 & 合作?`);
   }
 });
 
-test("mailto 固定收件人并正确编码主题和正文", () => {
+test("mailto 使用传入收件人并正确编码主题和正文", () => {
   assert.equal(
     typeof inquiryMailto.buildMailtoUrl,
     "function",
     "buildMailtoUrl must be exported",
   );
 
-  const mailto = inquiryMailto.buildMailtoUrl(validInquiry);
+  const mailto = inquiryMailto.buildMailtoUrl(validInquiry, testRecipient);
   const url = new URL(mailto);
   const expectedSubject = "业务咨询 · 金泰 & 合作?";
 
   assert.equal(url.protocol, "mailto:");
-  assert.equal(url.pathname, "ai.kingtai@gmail.com");
+  assert.equal(url.pathname, testRecipient);
   assert.ok(mailto.includes(`subject=${encodeURIComponent(expectedSubject)}`));
   assert.ok(
     mailto.includes(
@@ -95,5 +100,16 @@ test("咨询表单提供可朗读的提交状态和邮箱回退入口", () => {
   assert.match(form, /aria-live="polite"/);
   assert.match(form, /role="status"/);
   assert.match(form, /邮件客户端未打开/);
-  assert.match(form, /INQUIRY_RECIPIENT/);
+  assert.match(form, /buildMailtoUrl\(input, site\.contact\.email\)/);
+  assert.match(form, /mailto:\$\{site\.contact\.email\}/);
+  assert.match(form, /\{site\.contact\.email\}/);
+  assert.doesNotMatch(form, /INQUIRY_RECIPIENT/);
+});
+
+test("mailto helper 不重复维护公开邮箱或咨询类型", () => {
+  assert.doesNotMatch(helper, /@gmail\.com/);
+  assert.doesNotMatch(helper, /InquiryKind/);
+  for (const kind of ["业务咨询", "预约参观", "生态合作"]) {
+    assert.equal(helper.includes(kind), false, `helper duplicated kind: ${kind}`);
+  }
 });

@@ -2,10 +2,9 @@
 
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
-import { inquiry, inquiryKinds } from "@/content/site";
+import { inquiry, inquiryKinds, site } from "@/content/site";
 import {
   buildMailtoUrl,
-  INQUIRY_RECIPIENT,
   validateInquiryInput,
 } from "@/lib/inquiry-mailto.mjs";
 
@@ -60,7 +59,7 @@ export function InquiryForm({
       kind: "success",
       message: "已生成邮件内容，并尝试打开本机邮件客户端。",
     });
-    window.location.href = buildMailtoUrl(input);
+    window.location.href = buildMailtoUrl(input, site.contact.email);
   }
 
   return (
@@ -214,10 +213,10 @@ export function InquiryForm({
           <>
             {" "}邮件客户端未打开时，可复制或点击邮箱：
             <a
-              href={`mailto:${INQUIRY_RECIPIENT}`}
+              href={`mailto:${site.contact.email}`}
               className="cursor-pointer text-gold underline underline-offset-4"
             >
-              {INQUIRY_RECIPIENT}
+              {site.contact.email}
             </a>
           </>
         )}
