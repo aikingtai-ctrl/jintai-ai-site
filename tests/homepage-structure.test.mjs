@@ -30,6 +30,27 @@ const allPortalSource = [
   cooperationPath,
 ].join("\n");
 
+function hexToken(name) {
+  const match = globals.match(new RegExp(`${name}:\\s*(#[0-9a-fA-F]{6})`));
+  assert.ok(match, `missing ${name} token`);
+  return match[1];
+}
+
+function relativeLuminance(hex) {
+  const channels = hex.slice(1).match(/.{2}/g).map((value) => parseInt(value, 16) / 255);
+  const linear = channels.map((value) =>
+    value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4,
+  );
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+}
+
+function contrastRatio(foreground, background) {
+  const [lighter, darker] = [relativeLuminance(foreground), relativeLuminance(background)].sort(
+    (a, b) => b - a,
+  );
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
 test("homepage orders trust, paths, center, and cooperation", () => {
   let previousIndex = -1;
   for (const name of [
@@ -102,11 +123,29 @@ test("homepage keeps the public static-content boundary", () => {
   assert.doesNotMatch(allPortalSource, /(?:累计|超过|服务).*?\d+(?:\.\d+)?(?:%|家|个|万)/);
 });
 
-test("homepage places the stone inquiry form inside a dark glass panel", () => {
+test("homepage places the stone inquiry form inside an opaque night panel", () => {
   assert.match(
+    cooperationPath,
+    /<section id="inquiry" className="surface-stone">[\s\S]*?<div className="bg-night-2[^"\n]*">[\s\S]*?<InquiryForm/,
+  );
+  assert.doesNotMatch(
     cooperationPath,
     /<section id="inquiry" className="surface-stone">[\s\S]*?<div className="glass[^"\n]*">[\s\S]*?<InquiryForm/,
   );
+});
+
+test("homepage inquiry feedback uses contrast-verified tokens", () => {
+  assert.match(inquiryForm, /status\.kind === "error" \? "text-alert" : "text-ink-2"/);
+  assert.match(inquiryForm, /text-ink-3/);
+  assert.doesNotMatch(inquiryForm, /text-red-300/);
+
+  const background = hexToken("--jt-night-2");
+  for (const token of ["--jt-alert", "--jt-ink-2", "--jt-ink-3"]) {
+    assert.ok(
+      contrastRatio(hexToken(token), background) >= 4.5,
+      `${token} must meet 4.5:1 against --jt-night-2`,
+    );
+  }
 });
 
 test("homepage controls retain accessible motion and touch targets", () => {

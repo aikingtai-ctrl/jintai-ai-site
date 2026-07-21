@@ -205,7 +205,7 @@ export function InquiryForm({
         aria-live="polite"
         aria-atomic="true"
         className={`min-h-6 text-base leading-relaxed ${
-          status.kind === "error" ? "text-red-300" : "text-ink-2"
+          status.kind === "error" ? "text-alert" : "text-ink-2"
         }`}
       >
         {status.message}

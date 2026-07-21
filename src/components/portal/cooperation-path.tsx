@@ -35,7 +35,7 @@ export function CooperationPath() {
             title="留下方向，我们准备下一次交流"
             description="请留下单位与需求方向；提交信息将由本机邮件客户端发出。"
           />
-          <div className="glass rounded-lg p-6 sm:p-8">
+          <div className="bg-night-2 rounded-lg border border-border p-6 shadow-2xl sm:p-8">
             <InquiryForm defaultKind="业务咨询" />
           </div>
         </div>
