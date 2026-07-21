@@ -129,8 +129,8 @@ test("共享站点壳层提供公共路由、联系入口和门户样式", () =>
     );
   }
   assert.ok(
-    contrastRatio(stone, declaredHex(stoneSurface, "--portal-focus")) >= 3,
-    "--portal-focus must meet 3:1 contrast on stone",
+    contrastRatio(stone, declaredHex(stoneSurface, "--portal-focus")) >= 4.5,
+    "--portal-focus must meet 4.5:1 contrast on stone",
   );
 });
 
