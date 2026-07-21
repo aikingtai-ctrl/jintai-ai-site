@@ -15,7 +15,7 @@ export function PortalHero() {
         <div className="mt-10 flex flex-wrap gap-4">
           <Link
             href="#cooperation"
-            className="inline-flex min-h-11 items-center gap-2 rounded-md bg-gold px-6 py-3 font-medium text-[#241a05] transition-colors hover:bg-gold-soft"
+            className="inline-flex min-h-11 items-center gap-2 rounded-md bg-gold px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-gold-soft"
           >
             了解合作方式
             <ArrowRight className="size-4" aria-hidden />

@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const page = await readFile(new URL("../src/app/page.tsx", import.meta.url), "utf8");
+const hero = await readFile(new URL("../src/components/portal/hero.tsx", import.meta.url), "utf8");
+const centerStory = await readFile(new URL("../src/components/portal/center-story.tsx", import.meta.url), "utf8");
 const cooperationPath = await readFile(
   new URL("../src/components/portal/cooperation-path.tsx", import.meta.url),
   "utf8",
@@ -35,4 +37,15 @@ test("cooperation path shows the required handoff sequence", () => {
   }
   assert.match(cooperationPath, /→/);
   assert.match(cooperationPath, /<InquiryForm defaultKind="业务咨询"/);
+});
+
+test("homepage CTAs target the conversion anchors", () => {
+  assert.match(hero, /href="#cooperation"/);
+  assert.match(hero, /href="\/ai-center\/#visit"/);
+  assert.match(centerStory, /href="\/ai-center\/#visit"/);
+});
+
+test("homepage hero CTA uses the token-backed primary foreground", () => {
+  assert.doesNotMatch(hero, /text-\[#241a05\]/);
+  assert.match(hero, /text-primary-foreground/);
 });
