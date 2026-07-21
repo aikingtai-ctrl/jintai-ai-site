@@ -29,6 +29,7 @@ test("公开内容不保留限制数字和内部口径", () => {
     "索取该档报价",
     "五类必须留在城区的负载",
     "张北、乌兰察布等地综合成本更低",
+    "涉密专区",
   ]) {
     for (const { file, source } of publicSources) {
       assert.equal(source.includes(value), false, `限制内容泄漏：${value} (${file})`);

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   keywords: [
     "城区算力",
     "机柜托管",
-    "涉密专区",
+    "场景协同",
     "影像修复",
     "后期技术服务",
     "AI 产业中心",
