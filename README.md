@@ -8,10 +8,15 @@
 
 ```powershell
 npm ci
+$env:JINTAI_ROOT_PATH = "1"
 npm run dev
 ```
 
-打开 [http://localhost:3000](http://localhost:3000)。本地开发使用根路径；无需设置环境变量。
+开发服务器运行期间，请在新 PowerShell 终端打开 [http://localhost:3000/](http://localhost:3000/)。停止服务后，在设置变量的原终端清理：
+
+```powershell
+Remove-Item Env:JINTAI_ROOT_PATH
+```
 
 ## 静态构建
 
@@ -46,7 +51,7 @@ npx --yes serve out -l 3000
 Remove-Item Env:JINTAI_ROOT_PATH
 ```
 
-根路径预览地址为 [http://localhost:3000/](http://localhost:3000/)。不要使用旧的 `BASE_PATH` 空字符串命令：构建配置以 `JINTAI_ROOT_PATH=1` 明确选择根路径，默认仍是 GitHub Pages 路径。
+根路径预览地址为 [http://localhost:3000/](http://localhost:3000/)。构建配置以 `JINTAI_ROOT_PATH=1` 明确选择根路径，默认仍是 GitHub Pages 路径。
 
 ## GitHub Pages
 

@@ -1,7 +1,13 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import { inquiry, inquiryKinds, site } from "@/content/site";
+import { useState } from "react";
+import { inquiry, inquiryKinds } from "@/content/site";
+import {
+  buildMailtoUrl,
+  INQUIRY_RECIPIENT,
+  validateInquiryInput,
+} from "@/lib/inquiry-mailto.mjs";
 
 /**
  * 结构化询价表单。
@@ -23,33 +29,42 @@ export function InquiryForm({
 }: {
   defaultKind?: (typeof inquiryKinds)[number];
 }) {
+  const [status, setStatus] = useState<{
+    kind: "idle" | "error" | "success";
+    message: string;
+  }>({ kind: "idle", message: "" });
+
   // select 不做受控：取值只在提交时经 FormData 读取，无需渲染期同步
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const get = (k: string) => String(data.get(k) ?? "").trim();
+    const input = {
+      org: get("org"),
+      person: get("person"),
+      phone: get("phone"),
+      kind: get("kind") as (typeof inquiryKinds)[number],
+      need: get("need"),
+      scale: get("scale"),
+      timeline: get("timeline"),
+      message: get("message"),
+    };
+    const error = validateInquiryInput(input);
 
-    const body = [
-      `单位：${get("org")}`,
-      `联系人：${get("person")}`,
-      `联系方式：${get("phone")}`,
-      `需求方向：${get("need")}`,
-      `规模：${get("scale")}`,
-      `时间预期：${get("timeline")}`,
-      "",
-      "补充说明：",
-      get("message") || "（无）",
-    ].join("\n");
+    if (error) {
+      setStatus({ kind: "error", message: error });
+      return;
+    }
 
-    const subject = `${get("kind")} · ${get("org")}`;
-    window.location.href =
-      `mailto:${site.contact.email}` +
-      `?subject=${encodeURIComponent(subject)}` +
-      `&body=${encodeURIComponent(body)}`;
+    setStatus({
+      kind: "success",
+      message: "已生成邮件内容，并尝试打开本机邮件客户端。",
+    });
+    window.location.href = buildMailtoUrl(input);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-7 space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="mt-7 space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <label className={labelBase} htmlFor="org">
@@ -185,6 +200,28 @@ export function InquiryForm({
         生成询价邮件
         <ArrowRight className="size-4" aria-hidden />
       </button>
+
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className={`min-h-6 text-base leading-relaxed ${
+          status.kind === "error" ? "text-red-300" : "text-ink-2"
+        }`}
+      >
+        {status.message}
+        {status.kind === "success" && (
+          <>
+            {" "}邮件客户端未打开时，可复制或点击邮箱：
+            <a
+              href={`mailto:${INQUIRY_RECIPIENT}`}
+              className="cursor-pointer text-gold underline underline-offset-4"
+            >
+              {INQUIRY_RECIPIENT}
+            </a>
+          </>
+        )}
+      </div>
 
       <p className="text-base leading-relaxed text-ink-3">{inquiry.note}</p>
     </form>

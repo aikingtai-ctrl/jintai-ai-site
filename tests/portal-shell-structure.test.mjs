@@ -39,3 +39,13 @@ test("共享站点壳层提供公共路由、联系入口和门户样式", () =>
   assert.match(styles, /@media \(min-width: 1024px\)/);
   assert.match(styles, /prefers-reduced-motion/);
 });
+
+test("移动端折叠菜单内提供发起合作入口", () => {
+  const mobileMenu = header.match(
+    /<details\s+className=[\s\S]*?<\/details>/,
+  )?.[0];
+
+  assert.ok(mobileMenu, "missing mobile details menu");
+  assert.match(mobileMenu, /href="\/about\/#contact"/);
+  assert.match(mobileMenu, /发起合作/);
+});

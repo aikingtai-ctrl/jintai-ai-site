@@ -72,6 +72,12 @@ export function SiteHeader() {
                 </li>
               ))}
             </ul>
+            <Link
+              href="/about/#contact"
+              className="mt-2 block min-h-11 cursor-pointer rounded-md bg-gold px-4 py-3 text-center text-base font-medium text-[#241a05] transition-colors duration-200 hover:bg-gold-soft"
+            >
+              发起合作
+            </Link>
           </div>
         </details>
       </div>
