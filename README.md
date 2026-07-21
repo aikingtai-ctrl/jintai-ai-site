@@ -19,7 +19,10 @@ npm run dev
 
 ```powershell
 npm run build
-npx --yes serve out -l 3000 -s
+$previewRoot = ".superpowers\sdd\preview-root"
+New-Item -ItemType Directory -Path $previewRoot -Force
+New-Item -ItemType Junction -Path "$previewRoot\jintai-ai-site" -Target (Resolve-Path out)
+npx --yes serve $previewRoot -l 3000
 ```
 
 然后打开 [http://localhost:3000/jintai-ai-site/](http://localhost:3000/jintai-ai-site/)。
@@ -29,7 +32,7 @@ npx --yes serve out -l 3000 -s
 ```powershell
 $env:JINTAI_ROOT_PATH = "1"
 npm run build
-npx --yes serve out -l 3000 -s
+npx --yes serve out -l 3000
 Remove-Item Env:JINTAI_ROOT_PATH
 ```
 
@@ -82,7 +85,7 @@ npm test
 npm run lint
 ```
 
-随后以 `npx --yes serve out -l 3000 -s` 预览 GitHub Pages 产物，并在 `http://localhost:3000/jintai-ai-site/` 人工确认。`-s` 为本地服务器提供单页回退，以模拟 GitHub Pages 的项目子路径挂载；省略它会在该地址返回 404。
+随后以本节“静态构建”中的预览根目录命令预览 GitHub Pages 产物，并在 `http://localhost:3000/jintai-ai-site/` 人工确认。该 Junction 将 `out/` 挂载为 `jintai-ai-site/`，因此 HTML 与 `/jintai-ai-site/_next/` 下的静态资源均使用真实的 GitHub Pages 路径，而非只回退 HTML。
 
 1. 桌面端导航与全部 CTA 前往预期路由或区块。
 2. 390px 视口没有横向滚动，菜单与 CTA 可用。
