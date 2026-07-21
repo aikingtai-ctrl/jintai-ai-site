@@ -1,7 +1,15 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { Logo } from "@/components/brand";
-import { nav, site } from "@/content/site";
+import { site } from "@/content/site";
+
+const publicNav = [
+  { href: "/capabilities/", label: "能力服务" },
+  { href: "/solutions/", label: "解决方案" },
+  { href: "/ai-center/", label: "AI 中心" },
+  { href: "/partners/", label: "合作伙伴" },
+  { href: "/about/", label: "关于我们" },
+];
 
 /**
  * 吸顶导航。移动端用 <details> 实现折叠菜单——无需客户端 JS，
@@ -23,7 +31,7 @@ export function SiteHeader() {
 
         <nav aria-label="主导航" className="ml-auto hidden lg:block">
           <ul className="flex items-center gap-8">
-            {nav.map((item) => (
+            {publicNav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
@@ -37,10 +45,10 @@ export function SiteHeader() {
         </nav>
 
         <Link
-          href="#contact"
+          href="/about/#contact"
           className="ml-auto hidden shrink-0 cursor-pointer items-center rounded-md bg-gold px-6 py-3 text-base font-medium text-[#241a05] transition-colors duration-200 hover:bg-gold-soft lg:ml-0 lg:inline-flex"
         >
-          业务咨询
+          发起合作
         </Link>
 
         {/* 移动端菜单 */}
@@ -53,7 +61,7 @@ export function SiteHeader() {
           </summary>
           <div className="absolute right-0 top-full mt-3 w-60 glass rounded-xl p-2">
             <ul>
-              {nav.map((item) => (
+              {publicNav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}

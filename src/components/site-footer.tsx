@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand";
-import { nav, site } from "@/content/site";
+import { site } from "@/content/site";
+
+const publicNav = [
+  { href: "/capabilities/", label: "能力服务" },
+  { href: "/solutions/", label: "解决方案" },
+  { href: "/ai-center/", label: "AI 中心" },
+  { href: "/partners/", label: "合作伙伴" },
+  { href: "/about/", label: "关于我们" },
+];
 
 export function SiteFooter() {
   return (
@@ -21,7 +29,7 @@ export function SiteFooter() {
 
           <nav aria-label="页脚导航">
             <ul className="grid grid-cols-2 gap-x-12 sm:grid-cols-1">
-              {nav.map((item) => (
+              {publicNav.map((item) => (
                 <li key={item.href}>
                   {/* min-h-11 = 44px，满足触控目标最小尺寸 */}
                   <Link
@@ -38,7 +46,7 @@ export function SiteFooter() {
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8 text-base text-ink-3">
           <p>© {new Date().getFullYear()} {site.name}</p>
-          <p>页面数据以核实清单修订为准</p>
+          <p>本站遵循最小化收集原则，不在此表单服务中留存信息。</p>
         </div>
       </div>
     </footer>
