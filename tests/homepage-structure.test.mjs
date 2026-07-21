@@ -4,6 +4,10 @@ import test from "node:test";
 
 const page = await readFile(new URL("../src/app/page.tsx", import.meta.url), "utf8");
 const hero = await readFile(new URL("../src/components/portal/hero.tsx", import.meta.url), "utf8");
+const trustStrip = await readFile(
+  new URL("../src/components/portal/trust-strip.tsx", import.meta.url),
+  "utf8",
+);
 const centerStory = await readFile(new URL("../src/components/portal/center-story.tsx", import.meta.url), "utf8");
 const audiencePaths = await readFile(new URL("../src/components/portal/audience-paths.tsx", import.meta.url), "utf8");
 const cooperationPath = await readFile(
@@ -12,6 +16,14 @@ const cooperationPath = await readFile(
 );
 const site = await readFile(new URL("../src/content/site.ts", import.meta.url), "utf8");
 const cooperationPaths = site.match(/export const cooperationPaths = \[([\s\S]*?)\] as const;/)?.[1];
+const allPortalSource = [
+  page,
+  hero,
+  trustStrip,
+  audiencePaths,
+  centerStory,
+  cooperationPath,
+].join("\n");
 
 test("homepage orders trust, paths, center, and cooperation", () => {
   let previousIndex = -1;
@@ -65,4 +77,22 @@ test("homepage audience paths retain all three cooperation destinations", () => 
 test("homepage hero CTA uses the token-backed primary foreground", () => {
   assert.doesNotMatch(hero, /text-\[#241a05\]/);
   assert.match(hero, /text-primary-foreground/);
+});
+
+test("homepage uses the 21st architectural narrative structure", () => {
+  for (const id of ["trust", "capabilities", "center", "cooperation", "inquiry"]) {
+    assert.match(allPortalSource, new RegExp(`id=["']${id}["']`));
+  }
+  assert.match(hero, /<FloorStack/);
+  assert.match(centerStory, /<FloorStack/);
+  assert.match(audiencePaths, /grid-cols-\[.*1fr.*2fr.*1fr/);
+  assert.match(hero, /href="#cooperation"/);
+  assert.match(hero, /href="\/ai-center\/#visit"/);
+  assert.match(cooperationPath, /<InquiryForm defaultKind="业务咨询"/);
+});
+
+test("homepage keeps the public static-content boundary", () => {
+  assert.doesNotMatch(allPortalSource, /framer-motion|images\.unsplash\.com|https?:\/\//);
+  assert.doesNotMatch(allPortalSource, /[\u{1F000}-\u{1FAFF}]/u);
+  assert.doesNotMatch(allPortalSource, /(?:累计|超过|服务).*?\d+(?:\.\d+)?(?:%|家|个|万)/);
 });

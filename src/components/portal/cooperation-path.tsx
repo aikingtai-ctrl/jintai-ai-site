@@ -1,38 +1,45 @@
 import { InquiryForm } from "@/components/inquiry-form";
+import { SectionHeading } from "@/components/portal/section-heading";
 
 const steps = ["提出目标", "匹配能力与空间", "现场交流/场景验证", "共建与持续交付"];
 
 export function CooperationPath() {
   return (
-    <section id="cooperation">
-      <div className="mx-auto w-full max-w-7xl px-6 py-24">
-        <div className="grid gap-12 rounded-xl border border-border bg-night-2 p-8 lg:grid-cols-2 lg:p-12">
-          <div>
-            <p className="portal-eyebrow">开始合作</p>
-            <h2 className="mt-5 text-4xl font-bold leading-tight">把想法带来，一起找到落地路径</h2>
-            <ol className="mt-10 space-y-4">
-              {steps.map((step, index) => (
-                <li key={step} className="flex items-center gap-3 text-lg text-ink-2">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full border border-gold/50 text-sm font-semibold text-gold">
-                    {index + 1}
+    <>
+      <section id="cooperation" className="border-b border-border">
+        <div className="mx-auto w-full max-w-7xl px-6 py-24">
+          <SectionHeading
+            eyebrow="开始合作"
+            title="把想法带来，一起找到落地路径"
+            description="从目标沟通到场景验证，再进入共建与持续交付。"
+          />
+          <ol className="mt-12 grid gap-4 md:grid-cols-2">
+            {steps.map((step, index) => (
+              <li key={step} className="glass flex min-h-24 items-center gap-5 rounded-lg p-6">
+                <span className="text-sm font-semibold tracking-[0.14em] text-gold">0{index + 1}</span>
+                <span className="text-lg text-[var(--portal-text)]">{step}</span>
+                {index < steps.length - 1 ? (
+                  <span aria-hidden className="ml-auto text-gold">
+                    →
                   </span>
-                  {step}
-                  {index < steps.length - 1 ? (
-                    <span aria-hidden className="text-gold">
-                      →
-                    </span>
-                  ) : null}
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div>
-            <h3 className="text-2xl font-semibold">业务咨询</h3>
-            <p className="mt-3 leading-relaxed text-ink-2">留下单位和需求方向，我们将在一个工作日内回复。</p>
+                ) : null}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+      <section id="inquiry" className="surface-stone">
+        <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 py-24 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+          <SectionHeading
+            eyebrow="业务咨询"
+            title="留下方向，我们准备下一次交流"
+            description="请留下单位与需求方向；提交信息将由本机邮件客户端发出。"
+          />
+          <div className="rounded-lg border border-current/15 p-6 sm:p-8">
             <InquiryForm defaultKind="业务咨询" />
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
