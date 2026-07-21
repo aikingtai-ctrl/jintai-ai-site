@@ -4,11 +4,11 @@ import test from "node:test";
 
 const root = new URL("../", import.meta.url);
 const routeContracts = {
-  capabilities: { data: "trustPoints", formKind: "业务咨询" },
-  solutions: { data: "solutionGroups", formKind: "业务咨询" },
-  "ai-center": { data: "floorStories", formKind: "预约参观" },
-  partners: { data: "partnerRoles", formKind: "生态合作" },
-  about: { data: "aboutPoints", formKind: "业务咨询" },
+  capabilities: { data: "trustPoints", formKind: "业务咨询", primaryHref: "#inquiry" },
+  solutions: { data: "solutionGroups", formKind: "业务咨询", primaryHref: "#government" },
+  "ai-center": { data: "floorStories", formKind: "预约参观", primaryHref: "#visit" },
+  partners: { data: "partnerRoles", formKind: "生态合作", primaryHref: "#inquiry" },
+  about: { data: "aboutPoints", formKind: "业务咨询", primaryHref: "#contact" },
 };
 const routeSources = await Promise.all(
   Object.keys(routeContracts).map(async (route) => [
@@ -20,7 +20,7 @@ const pageHero = await readFile(new URL("src/components/portal/page-hero.tsx", r
 const site = await readFile(new URL("src/content/site.ts", root), "utf8");
 
 for (const [route, source] of routeSources) {
-  const { data, formKind } = routeContracts[route];
+  const { data, formKind, primaryHref } = routeContracts[route];
 
   test(`${route} retains its shared chrome, hero, data, and inquiry contract`, () => {
     for (const component of ["SiteHeader", "PageHero", "InquiryForm", "SiteFooter"]) {
@@ -29,6 +29,7 @@ for (const [route, source] of routeSources) {
     assert.match(source, /<main id="main">/);
     assert.match(source, new RegExp(`${data}\.map`));
     assert.match(source, new RegExp(`defaultKind="${formKind}"`));
+    assert.match(source, new RegExp(`primaryHref="${primaryHref}"`));
   });
 
   test(`fresh static export contains ${route}`, async () => {
@@ -52,9 +53,11 @@ for (const [route, source] of routeSources) {
 
 test("solutions exposes all data-backed deep-link anchors", () => {
   const source = Object.fromEntries(routeSources).solutions;
+  const solutionGroups = site.match(/export const solutionGroups = \[([\s\S]*?)\] as const;/)?.[1];
   assert.match(source, /id={group.id}/);
+  assert.ok(solutionGroups, "missing solutionGroups data");
   for (const anchor of ["government", "industry", "education"]) {
-    assert.match(site, new RegExp(`id: "${anchor}"`));
+    assert.match(solutionGroups, new RegExp(`id: "${anchor}"`));
   }
 });
 
