@@ -19,9 +19,19 @@ npm run dev
 
 ```powershell
 npm run build
-$previewRoot = ".superpowers\sdd\preview-root"
+$previewRoot = Join-Path (Get-Location) ".superpowers\sdd\preview-root"
+$previewMount = Join-Path $previewRoot "jintai-ai-site"
+$outPath = (Resolve-Path out).Path.TrimEnd("\")
 New-Item -ItemType Directory -Path $previewRoot -Force
-New-Item -ItemType Junction -Path "$previewRoot\jintai-ai-site" -Target (Resolve-Path out)
+if (Test-Path -LiteralPath $previewMount) {
+  $mount = Get-Item -LiteralPath $previewMount
+  $targetPath = [IO.Path]::GetFullPath(@($mount.Target)[0]).TrimEnd("\")
+  if ($mount.LinkType -ne "Junction" -or $targetPath -ne $outPath) {
+    throw "Expected $previewMount to be a Junction to $outPath. Inspect it, then remove only the incorrect Junction with: Remove-Item -LiteralPath '$previewMount' -Force"
+  }
+} else {
+  New-Item -ItemType Junction -Path $previewMount -Target $outPath
+}
 npx --yes serve $previewRoot -l 3000
 ```
 
