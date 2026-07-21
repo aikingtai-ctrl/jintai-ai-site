@@ -27,6 +27,7 @@ export function SiteFooter() {
             </p>
             <Link
               href="/about/#contact"
+              prefetch={false}
               className="portal-focus-ring mt-6 inline-flex min-h-11 items-center rounded-md bg-gold px-5 py-3 text-base font-medium text-primary-foreground transition-colors hover:bg-gold-soft"
             >
               发起合作
@@ -40,6 +41,7 @@ export function SiteFooter() {
                   {/* min-h-11 = 44px，满足触控目标最小尺寸 */}
                   <Link
                     href={item.href}
+                    prefetch={false}
                     className="inline-flex min-h-11 cursor-pointer items-center text-base text-ink-2 transition-colors duration-200 hover:text-gold"
                   >
                     {item.label}

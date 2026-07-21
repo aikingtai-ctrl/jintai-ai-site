@@ -19,7 +19,7 @@ export function AudiencePaths() {
         <ul className="mt-12 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)]">
           {cooperationPaths.map((path, index) => (
             <li key={path.id}>
-              <Link href={path.href}
+              <Link href={path.href} prefetch={false}
                 className="portal-focus-ring glass glass-hover block h-full rounded-lg p-6 text-[var(--portal-text)]"
               >
                 <SignalMark label={path.id} tone={pathTones[index] ?? "gold"} />

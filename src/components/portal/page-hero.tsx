@@ -33,6 +33,7 @@ export function PageHero({
           </p>
           <Link
             href={primaryHref}
+            prefetch={false}
             className="portal-focus-ring mt-10 inline-flex min-h-11 items-center gap-2 rounded-md bg-gold px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-gold-soft"
           >
             {primaryLabel}

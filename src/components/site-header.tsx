@@ -21,6 +21,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-24 max-w-7xl items-center gap-8 px-6">
         <Link
           href="/"
+          prefetch={false}
           className="flex min-h-11 shrink-0 items-center gap-3 text-gold transition-opacity duration-200 hover:opacity-80"
         >
           <Logo className="size-9" />
@@ -35,6 +36,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  prefetch={false}
                   className="portal-focus-ring inline-flex min-h-11 cursor-pointer items-center text-base text-ink-2 transition-colors duration-200 hover:text-gold"
                 >
                   {item.label}
@@ -46,6 +48,7 @@ export function SiteHeader() {
 
         <Link
           href="/about/#contact"
+          prefetch={false}
           className="portal-focus-ring ml-auto hidden min-h-11 shrink-0 cursor-pointer items-center rounded-md bg-gold px-6 py-3 text-base font-medium text-[#241a05] transition-colors duration-200 hover:bg-gold-soft lg:ml-0 lg:inline-flex"
         >
           发起合作
@@ -65,6 +68,7 @@ export function SiteHeader() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    prefetch={false}
                     className="block cursor-pointer rounded-md px-4 py-3 text-base text-ink-2 transition-colors duration-200 hover:bg-night-3 hover:text-gold"
                   >
                     {item.label}
@@ -74,6 +78,7 @@ export function SiteHeader() {
             </ul>
             <Link
               href="/about/#contact"
+              prefetch={false}
               className="mt-2 block min-h-11 cursor-pointer rounded-md bg-gold px-4 py-3 text-center text-base font-medium text-[#241a05] transition-colors duration-200 hover:bg-gold-soft"
             >
               发起合作

@@ -61,6 +61,16 @@ const pageHero = await readFile(
   new URL("src/components/portal/page-hero.tsx", root),
   "utf8",
 );
+const internalLinkSources = await Promise.all(
+  [
+    "src/components/site-header.tsx",
+    "src/components/site-footer.tsx",
+    "src/components/portal/audience-paths.tsx",
+    "src/components/portal/center-story.tsx",
+    "src/components/portal/hero.tsx",
+    "src/components/portal/page-hero.tsx",
+  ].map((file) => readFile(new URL(file, root), "utf8")),
+);
 const pageSources = await Promise.all(
   routes.map((route) => readFile(new URL(`src/app${route}page.tsx`, root), "utf8")),
 );
@@ -151,4 +161,17 @@ test("移动端折叠菜单内提供发起合作入口", () => {
   assert.ok(mobileMenu, "missing mobile details menu");
   assert.match(mobileMenu, /href="\/about\/#contact"/);
   assert.match(mobileMenu, /发起合作/);
+});
+
+test("静态导出中的站内链接不预取 RSC 响应", () => {
+  for (const source of internalLinkSources) {
+    const links = source.match(/<Link\b/g) ?? [];
+    const disabledPrefetches = source.match(/prefetch=\{false\}/g) ?? [];
+
+    assert.equal(
+      disabledPrefetches.length,
+      links.length,
+      "every internal Link must disable RSC prefetching for static hosting",
+    );
+  }
 });

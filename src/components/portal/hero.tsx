@@ -22,6 +22,7 @@ export function PortalHero() {
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
               href="#cooperation"
+              prefetch={false}
               className="portal-focus-ring inline-flex min-h-11 items-center gap-2 rounded-md bg-gold px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-gold-soft"
             >
               了解合作方式
@@ -29,6 +30,7 @@ export function PortalHero() {
             </Link>
             <Link
               href="/ai-center/#visit"
+              prefetch={false}
               className="portal-focus-ring inline-flex min-h-11 items-center rounded-md border border-border px-6 py-3 font-medium text-[var(--portal-text)] transition-colors hover:border-gold hover:text-gold"
             >
               参观 AI 中心
