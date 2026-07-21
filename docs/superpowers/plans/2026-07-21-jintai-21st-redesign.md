@@ -175,13 +175,33 @@ git commit -m "feat: unify Jintai portal pages"
 
 - [ ] **Step 1: 根路径构建**
 
-Run: `$env:JINTAI_ROOT_PATH='1'; npm test && npm run test:content && npm run lint && npm run build; Remove-Item Env:JINTAI_ROOT_PATH`
+Run:
+
+```powershell
+$env:JINTAI_ROOT_PATH = "1"
+npm run build
+Remove-Item Env:JINTAI_ROOT_PATH
+npm test
+npm run test:content
+npm run lint
+```
 
 Expected: all tests PASS, lint 0 errors, root-hosted static export succeeds without `/jintai-ai-site/` asset paths.
 
 - [ ] **Step 2: Pages basePath 构建（默认环境）**
 
-Run: `npm run build`
+Run:
+
+```powershell
+npm run build
+Test-Path out\index.html
+Test-Path out\capabilities\index.html
+Test-Path out\solutions\index.html
+Test-Path out\ai-center\index.html
+Test-Path out\partners\index.html
+Test-Path out\about\index.html
+if (-not (Get-Content -Raw out\index.html).Contains("/jintai-ai-site/")) { throw "Pages basePath missing from out/index.html" }
+```
 
 Expected: `out/index.html` 和五个内页目录存在，生成资源路径包含 `/jintai-ai-site/`。
 
@@ -209,4 +229,3 @@ git commit -m "docs: record Jintai 21st redesign release"
 - [ ] **Step 7: 打开最终网页**
 
 在 Codex 内置浏览器打开 `https://aikingtai-ctrl.github.io/jintai-ai-site/`，确认首屏是新版本并将标签页作为最终交付。
-

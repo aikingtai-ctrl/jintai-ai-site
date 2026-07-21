@@ -68,4 +68,3 @@
 - `npm test`、`npm run test:content`、`npm run lint`、根路径构建和 Pages `basePath` 构建全部通过。
 - 浏览器逐页检查六条路由，在 375px 与 1440px 下确认无溢出、无不可读文本、无错误链接。
 - 发布到现有 GitHub Pages 地址后再次逐页验证，并在浏览器中打开最终首页交付。
-

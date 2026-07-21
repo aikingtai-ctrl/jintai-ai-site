@@ -94,9 +94,14 @@ test("center visit link does not switch to low-contrast gold on stone hover", ()
 
 test("redesign plan builds root mode explicitly and Pages mode by default", () => {
   assert.doesNotMatch(plan, /GITHUB_PAGES/);
-  assert.match(plan, /\$env:JINTAI_ROOT_PATH\s*=\s*["']1["'];[\s\S]*?npm run build;/);
-  assert.match(plan, /Remove-Item Env:JINTAI_ROOT_PATH/);
-  assert.match(plan, /Pages basePath[\s\S]*?Run:\s*`npm run build`/);
+  assert.match(
+    plan,
+    /```powershell\s*\r?\n\s*\$env:JINTAI_ROOT_PATH\s*=\s*["']1["']\s*\r?\n\s*npm run build\s*\r?\n\s*Remove-Item Env:JINTAI_ROOT_PATH\s*\r?\n\s*npm test\s*\r?\n\s*npm run test:content\s*\r?\n\s*npm run lint\s*\r?\n```/,
+  );
+  assert.match(
+    plan,
+    /Pages basePath[\s\S]*?npm run build\s*\r?\n\s*Test-Path out\\index\.html[\s\S]*?Get-Content -Raw out\\index\.html\)\.Contains\("\/jintai-ai-site\/"\)/,
+  );
   assert.match(plan, /\/jintai-ai-site\//);
 });
 
